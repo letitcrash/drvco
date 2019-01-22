@@ -9,5 +9,7 @@ defmodule ApiWeb.Router do
     pipe_through :api
 
     get "/leagues", LeagueController, :index
+    get "/leagues/:id", LeagueController, :show
+    get "/leagues/:league_id/seasons/:id", LeagueController, :show_season
   end
 end
