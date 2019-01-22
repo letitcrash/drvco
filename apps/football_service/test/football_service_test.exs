@@ -29,8 +29,9 @@ defmodule FootballServiceTest do
         %{league: "SP2", seasons: ["201516", "201617"]}
       ]
 
-    assert available_leagues_and_season == 
-      FootballService.Store.list_leagues_and_seasons
+    {:ok, result} = FootballService.Store.list_leagues_and_seasons
+    
+    assert available_leagues_and_season == result
   end
 
   test "fetch the result for specific league and season" do
@@ -58,7 +59,7 @@ defmodule FootballServiceTest do
       HTR: "D"
     }
 
-    [ first | tail ] = FootballService.Store.get_match_stats_for(league: "SP1", season: "201617")
+    {:ok, [ first | tail ]}= FootballService.Store.get_match_stats_for(league: "SP1", season: "201617")
     [ last | tail ] = Enum.reverse(tail)
 
     assert first == first_match

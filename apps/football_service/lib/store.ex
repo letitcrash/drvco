@@ -27,11 +27,15 @@ defmodule FootballService.Store do
         %{league: league, seasons: Map.keys(state[league])}
       end)
     
-    {:reply, keys, state}
+    {:reply, {:ok, keys}, state}
   end
   
   def handle_call({:get_stats_for, %{league: league, season: season}}, _from, state) do
-    result = state[league][season][:stats]
-    {:reply, result, state}
+    case result = get_in(state, [league, season, :stats]) do
+      nil ->
+        {:reply, {:error, nil}, state}
+      _ ->
+        {:reply, {:ok, result}, state}
+    end
   end
 end
