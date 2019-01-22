@@ -61,7 +61,11 @@ defmodule FootballService.CSVParser do
         Map.put(acc, season, inner_map)
 
       _ ->
-        Map.put(acc, :data, [record | acc[:data]])
+        if is_nil(acc[:stats]) do
+          Map.put(acc, :stats, [Map.new(record)])
+        else 
+          Map.put(acc, :stats, [Map.new(record) | acc[:stats]])
+        end
     end
   end
 

@@ -10,6 +10,7 @@ defmodule ApiWeb.LeagueController do
   end
 
   def show_season(conn, %{"id" => id, "league_id" => league_id}) do
-    json conn, FootballService.Store.get_match_stats_for(league: league_id, season: id)
+    k = FootballService.Store.get_match_stats_for(league: league_id, season: id)
+    json conn, k
   end
 end

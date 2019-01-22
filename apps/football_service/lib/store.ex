@@ -31,7 +31,7 @@ defmodule FootballService.Store do
   end
   
   def handle_call({:get_stats_for, %{league: league, season: season}}, _from, state) do
-    result = state[league][season][:data]
+    result = state[league][season][:stats]
     {:reply, result, state}
   end
 end

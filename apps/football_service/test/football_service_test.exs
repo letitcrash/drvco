@@ -3,7 +3,7 @@ defmodule FootballServiceTest do
   # doctest FootballService
 
   test "validate data parsing" do
-    sp1_201617_last_item = [
+    sp1_201617_last_item = %{
       Date: "21/05/2017",
       HomeTeam: "Valencia",
       AwayTeam: "Villarreal",
@@ -13,10 +13,10 @@ defmodule FootballServiceTest do
       HTHG: "0",
       HTAG: "1",
       HTR: "A"
-    ]
+    }
 
     data = FootballService.CSVParser.init()
-    [sp1_201617_head_item | _rest] = data["SP1"]["201617"][:data]
+    [sp1_201617_head_item | _rest] = data["SP1"]["201617"][:stats]
     assert sp1_201617_last_item == sp1_201617_head_item
   end
 
@@ -34,7 +34,7 @@ defmodule FootballServiceTest do
   end
 
   test "fetch the result for specific league and season" do
-    sp1_201617_first_match = [
+    first_match = %{
       Date: "21/05/2017",
       HomeTeam: "Valencia",
       AwayTeam: "Villarreal",
@@ -44,11 +44,24 @@ defmodule FootballServiceTest do
       HTHG: "0",
       HTAG: "1",
       HTR: "A"
-    ]
+    }
 
-    [first | _rest] = 
-      FootballService.Store.get_match_stats_for(league: "SP1", season: "201617")
-    
-    assert first == sp1_201617_first_match
+    last_match = %{
+      Date: "19/08/2016",
+      HomeTeam: "La Coruna",
+      AwayTeam: "Eibar",
+      FTHG: "2",
+      FTAG: "1",
+      FTR: "H",
+      HTHG: "0",
+      HTAG: "0",
+      HTR: "D"
+    }
+
+    [ first | tail ] = FootballService.Store.get_match_stats_for(league: "SP1", season: "201617")
+    [ last | tail ] = Enum.reverse(tail)
+
+    assert first == first_match
+    assert last == last_match
   end
 end
