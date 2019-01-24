@@ -1,24 +1,34 @@
 defmodule ApiWeb.LeagueController do
   use ApiWeb, :controller
+  alias FootballService.Store
 
   def index(conn, _params) do
-    json conn, FootballService.Store.list_leagues_and_seasons
-  end
+    case Store.list_leagues() do
+      {:ok, leagues} ->
+        conn
+        |> put_status(:ok)
+        |> json(leagues)
 
-  def show(conn, %{"id" => _id}) do
-    json conn, []
-  end
-
-  def show_season(conn, %{"id" => id, "league_id" => league_id}) do
-    with {:ok, result} <- FootballService.Store.get_match_stats_for(league: league_id, season: id) do
-      conn
-      |> put_status(:ok)
-      |> json(result)
-    else
-      _ ->
+      {:error, message} ->
         conn
         |> put_status(:not_found)
-        |> render(ApiWeb.ErrorView, "404.json", [])
+        |> put_view(ApiWeb.ErrorView)
+        |> render("404.json", %{message: message})
+    end
+  end
+
+  def scores(conn, %{"league" => league, "season" => season}) do
+    case Store.get_scores_for(league: league, season: season) do
+      {:ok, result} ->
+        conn
+        |> put_status(:ok)
+        |> json(result)
+
+      {:error, message} ->
+        conn
+        |> put_status(:not_found)
+        |> put_view(ApiWeb.ErrorView)
+        |> render("404.json", %{message: message}) 
     end
   end
 end

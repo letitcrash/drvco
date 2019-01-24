@@ -1,9 +1,11 @@
 defmodule FootballServiceTest do
   use ExUnit.Case
-  # doctest FootballService
+  alias FootballService.Store
+  alias FootballService.CSVParser
+  doctest FootballService
 
   test "validate data parsing" do
-    sp1_201617_last_item = %{
+    test_item = %{
       Date: "21/05/2017",
       HomeTeam: "Valencia",
       AwayTeam: "Villarreal",
@@ -15,12 +17,13 @@ defmodule FootballServiceTest do
       HTR: "A"
     }
 
-    data = FootballService.CSVParser.init()
-    [sp1_201617_head_item | _rest] = data["SP1"]["201617"][:stats]
-    assert sp1_201617_last_item == sp1_201617_head_item
+    data = CSVParser.init()
+    [parsed_item | _rest] = data["SP1"]["201617"][:stats]
+
+    assert test_item == parsed_item
   end
 
-  test "list available leagues and seasons" do
+  test "list available leagues and seasons from store" do
     available_leagues_and_season = 
       [
         %{league: "D1", seasons: ["201617"]},
@@ -29,12 +32,12 @@ defmodule FootballServiceTest do
         %{league: "SP2", seasons: ["201516", "201617"]}
       ]
 
-    {:ok, result} = FootballService.Store.list_leagues_and_seasons
+    {:ok, result} = Store.list_leagues()
     
     assert available_leagues_and_season == result
   end
 
-  test "fetch the result for specific league and season" do
+  test "fetch the result for specific league and season in store" do
     first_match = %{
       Date: "21/05/2017",
       HomeTeam: "Valencia",
@@ -59,10 +62,18 @@ defmodule FootballServiceTest do
       HTR: "D"
     }
 
-    {:ok, [ first | tail ]}= FootballService.Store.get_match_stats_for(league: "SP1", season: "201617")
-    [ last | tail ] = Enum.reverse(tail)
+    {:ok, [ first | tail ]} = 
+     Store.get_scores_for(league: "SP1", season: "201617")
+
+    [ last | _tail ] = Enum.reverse(tail)
 
     assert first == first_match
     assert last == last_match
+  end
+
+  test "invalid data test from storage" do
+    assert {:error, "League or Season is not available"} == Store.get_scores_for(league: "SP1", season: "NA")
+    assert {:error, "League or Season is not available"} == Store.get_scores_for(league: "NA", season: "201617")
+    assert {:error, "League or Season is not available"} == Store.get_scores_for(league: "NA", season: "NA")
   end
 end

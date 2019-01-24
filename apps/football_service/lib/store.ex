@@ -10,30 +10,36 @@ defmodule FootballService.Store do
     {:ok, CSVParser.init}
   end
 
-  def list_leagues_and_seasons do
+  def list_leagues do
     GenServer.call(:footal_stats_store, {:list_leagues_and_seasons})
   end
 
-  def get_match_stats_for(league: league, season: season) do
-    GenServer.call(:footal_stats_store, {:get_stats_for, %{league: league, season: season}})
+  def get_scores_for(league: league, season: season) do
+    GenServer.call(:footal_stats_store, {:get_scores_for, %{league: league, season: season}})
+  end
+
+  defp get_leagues_and_seasons_for(state) do
+    Map.keys(state)
+    |> Enum.map(fn league ->
+      %{league: league, seasons: Map.keys(state[league])}
+    end)
   end
 
   #Callbacks
 
   def handle_call({:list_leagues_and_seasons}, _from, state) do
-    keys = 
-      Map.keys(state)
-      |> Enum.map(fn league -> 
-        %{league: league, seasons: Map.keys(state[league])}
-      end)
-    
-    {:reply, {:ok, keys}, state}
+    case get_leagues_and_seasons_for(state) do
+      nil ->
+        {:reply, {:error, "No leagues and seasons found"}, state}
+      leagues ->
+        {:reply, {:ok, leagues}, state}
+    end
   end
   
-  def handle_call({:get_stats_for, %{league: league, season: season}}, _from, state) do
+  def handle_call({:get_scores_for, %{league: league, season: season}}, _from, state) do
     case result = get_in(state, [league, season, :stats]) do
       nil ->
-        {:reply, {:error, nil}, state}
+        {:reply, {:error, "League or Season is not available"}, state}
       _ ->
         {:reply, {:ok, result}, state}
     end

@@ -1,0 +1,17 @@
+message ResultResponse {
+  repeated Match result = 1 [packed=true];
+}
+
+message Match {
+  required string league = 1;
+  required string season = 2;
+  required string game_date = 3;
+  required string home_team = 4;
+//  required string away_team = 5;
+//  required int32 fthg = 6;
+//  required int32 ftag = 7;
+//  required string ftr = 8;
+//  required int32 hthg = 9;
+//  required int32 htag = 10;
+//  required string htr = 11;
+}
