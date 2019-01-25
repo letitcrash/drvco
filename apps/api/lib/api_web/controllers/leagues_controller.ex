@@ -25,8 +25,6 @@ defmodule ApiWeb.LeagueController do
         |> json(result)
 
       {:error, message} ->
-        IO.inspect(message)
-
         conn
         |> put_status(:not_found)
         |> put_view(ApiWeb.ErrorView)

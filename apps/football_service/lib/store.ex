@@ -47,7 +47,7 @@ defmodule FootballService.Store do
       {:reply, {:ok, result}, state}
     rescue 
       e ->
-        IO.puts(e)
+        IO.puts("An error occurred while pocessing GenServer state: " <> e.message)
         {:reply, {:error, e.message}, state}
     end
   end

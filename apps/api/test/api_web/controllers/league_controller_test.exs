@@ -9,8 +9,6 @@ defmodule ApiWeb.LeagueControllerTest do
   @season "201617"
   @unavailable_league "XX1"
   @unavailable_season "201819"
-  @invalid_league 123
-  @invalid_season :season
 
   describe "league api tests" do
     test "render leagues and seasons list when data valid", %{conn: conn} do
