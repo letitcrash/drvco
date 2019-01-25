@@ -21,8 +21,12 @@
   * Start Phoenix endpoint with `mix phx.server`
 
 # API
-  * List available leagues and season pairs
-  `GET /api/leagues`
-  * List match statistic for specific leagues and season
-  `GET /api/leagues/SP1/seasons/201617/scores`
 
+### List available leagues and season pairs
+  * JSON `GET /api/leagues`
+  * Proto `GET /api/proto/leagues`
+
+### List match statistic for specific leagues and season
+  * JSON `GET /api/leagues/SP1/seasons/201617/scores`
+  * Proto `GET /api/proto/SP1/201617`
+ 
