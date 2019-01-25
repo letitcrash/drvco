@@ -56,9 +56,10 @@ defmodule FootballServiceTest do
   test "fetch the result for specific league and season from store" do
     {:ok, [first | tail]} = Store.get_scores(@league, @season)
     [last | _tail] = Enum.reverse(tail)
-
+    
     assert first == @first_match
     assert last == @last_match
+    assert tail |> length == 379
   end
 
   test "invalid data from storage tests" do
