@@ -3,7 +3,7 @@
 **Drvc_0 is a web application that serves football match statistics over HTTP API**
 
   - Elixir Umbrella Application
-  - Phoenix Framework 1.4 for API
+  - Phoenix Framework 1.4 for API (No Ecto, No WebPack)
   - JSON and Protocol Buffers
   - Dockerized
   - HAProxy instance load balancing
@@ -11,7 +11,11 @@
 
 # Running application
 
-### With docker
+### In docker container
+  * Build `docker build . -t drvco`
+  * Run `docker run -p4000:4000 drvco`
+
+### With HAProxy in docker cluster 
   * Build and run `docker-compose up -d`
   * Scale api to N instances `docker-compose scale api=N`
   * Check running containers `docker ps`
