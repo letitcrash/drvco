@@ -13,7 +13,7 @@
 
 ### In docker
   * Build and run `docker-compose up -d`
-  * Scale api to N instances `docker-compose scale api=3`
+  * Scale api to N instances `docker-compose scale api=N`
   * Check running containers `docker ps`
   
 ### Running locally
@@ -22,7 +22,7 @@
 
 # API
   * List available leagues and season pairs
-  `/api/leagues`
+  `GET /api/leagues`
   * List match statistic for specific leagues and season
-  `/api/leagues/SP1/seasons/201617/scores`
+  `GET /api/leagues/SP1/seasons/201617/scores`
 
