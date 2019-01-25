@@ -1,4 +1,4 @@
-defmodule Derivco.MixProject do
+defmodule Drvco.MixProject do
   use Mix.Project
 
   def project do
