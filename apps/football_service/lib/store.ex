@@ -9,7 +9,7 @@ defmodule FootballService.Store do
   end
 
   def init(_) do
-    {:ok, CSVParser.init}
+    {:ok, CSVParser.init()}
   end
 
   def list_leagues(opts \\ []) do
@@ -19,48 +19,49 @@ defmodule FootballService.Store do
 
   def get_scores(league, season, opts \\ []) do
     format = Keyword.get(opts, :format)
-    GenServer.call(:store, {:get_scores, league, season, format })
+    GenServer.call(:store, {:get_scores, league, season, format})
   end
 
-  def encode_in(list, _format) when is_nil(list), do: raise "League or Season is not available"
+  def encode_in(list, _format) when is_nil(list), do: raise("League or Season is not available")
   def encode_in(list, format) when is_nil(format), do: list
   def encode_in(list, :json) when is_list(list), do: list
   def encode_in(list, :proto) when is_list(list), do: Proto.encode(list)
-  def encode_in(_list, _format), do: raise "Unsupported format"
+  def encode_in(_list, _format), do: raise("Unsupported format")
 
   def get_season_keys(list) do
     list
-    |> Map.keys
+    |> Map.keys()
     |> Enum.map(fn i -> %{season: i} end)
   end
 
-  #Callbacks
+  # Callbacks
 
   def handle_call({:list_leagues, format}, _from, state) do
     try do
       result =
         state
-        |> Map.keys
-        |> Enum.map(&(%{league: &1, seasons: get_season_keys(state[&1])}))
+        |> Map.keys()
+        |> Enum.map(&%{league: &1, seasons: get_season_keys(state[&1])})
         |> encode_in(format)
 
       {:reply, {:ok, result}, state}
-    rescue 
+    rescue
       e ->
         IO.puts("An error occurred while pocessing GenServer state: " <> e.message)
         {:reply, {:error, e.message}, state}
     end
   end
 
-  def handle_call({:get_scores, league, season, format}, _from, state) when is_binary(league) and is_binary(season) do
+  def handle_call({:get_scores, league, season, format}, _from, state)
+      when is_binary(league) and is_binary(season) do
     try do
-      result = 
+      result =
         state
         |> get_in([league, season, :stats])
         |> encode_in(format)
 
       {:reply, {:ok, result}, state}
-    rescue 
+    rescue
       e ->
         IO.puts("An error occurred while pocessing GenServer state: " <> e.message)
         {:reply, {:error, e.message}, state}

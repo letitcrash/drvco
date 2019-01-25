@@ -12,17 +12,17 @@ defmodule FootballService.Proto do
   end
 
   def encode_for_type([%Score{} = _ | _] = list) do
-    Scores.new(scores: list) 
-    |> Scores.encode
+    Scores.new(scores: list)
+    |> Scores.encode()
   end
-  
+
   def encode_for_type([%League{} = _ | _] = list) do
-    Leagues.new(leagues: list) 
-    |> Leagues.encode
+    Leagues.new(leagues: list)
+    |> Leagues.encode()
   end
 
   def encode_for_type(list), do: list
-  
+
   def from_map(%{league: league, seasons: seasons}) do
     League.new(name: league, seasons: encode(seasons))
   end
@@ -30,7 +30,7 @@ defmodule FootballService.Proto do
   def from_map(%{season: name}) do
     Season.new(name: name)
   end
-  
+
   def from_map(map) do
     Score.new(
       home_team: map[:HomeTeam],

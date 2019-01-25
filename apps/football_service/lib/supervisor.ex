@@ -6,10 +6,10 @@ defmodule FootballService.Supervisor do
   end
 
   def init(_) do
-    children = 
-      [
-        worker(FootballService.Store, [])
-      ]
+    children = [
+      worker(FootballService.Store, [])
+    ]
+
     supervise(children, strategy: :one_for_one)
   end
 end
