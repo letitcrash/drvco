@@ -2,8 +2,8 @@ defmodule ApiWeb.LeagueControllerTest do
   use ApiWeb.ConnCase
   import ProtoResponse
   alias FootballService.Store
-  alias FootballService.ProtoMessages.Leagues
-  alias FootballService.ProtoMessages.Scores
+  alias FootballService.Proto.Messages.Leagues
+  alias FootballService.Proto.Messages.Scores
 
   @league "SP1"
   @season "201617"
