@@ -26,6 +26,9 @@
 ### List available leagues and season pairs
   * JSON `GET /api/leagues`
   * Proto `GET /api/proto/leagues`
+  
+  Result:
+  `[{"league":"D1","seasons":[{"season":"201617"}]},{"league":"E0","seasons":[{"season":"201617"}]},{"league":"SP1","seasons":[{"season":"201516"},{"season":"201617"}]},{"league":"SP2","seasons":[{"season":"201516"},{"season":"201617"}]}]`
 
 ### List match statistic for specific leagues and season
   * JSON `GET /api/leagues/SP1/seasons/201617/scores`
