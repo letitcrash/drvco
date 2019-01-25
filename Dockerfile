@@ -3,7 +3,7 @@ EXPOSE 4000
 WORKDIR /app
 RUN mix local.hex --force && mix local.rebar --force
 COPY . /app/
-ENV MIX_ENV=prod
+ENV MIX_ENV=dev
 ENV PORT=4000
 RUN mix deps.get
 RUN mix deps.compile
