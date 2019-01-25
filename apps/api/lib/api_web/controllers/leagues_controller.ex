@@ -3,7 +3,7 @@ defmodule ApiWeb.LeagueController do
   alias FootballService.Store
 
   def index(conn, _params) do
-    case Store.list_leagues() do
+    case Store.list_leagues(format: :json) do
       {:ok, leagues} ->
         conn
         |> put_status(:ok)
@@ -18,17 +18,19 @@ defmodule ApiWeb.LeagueController do
   end
 
   def scores(conn, %{"league" => league, "season" => season}) do
-    case Store.get_scores_for(league: league, season: season) do
+    case Store.get_scores(league, season, format: :json) do
       {:ok, result} ->
         conn
         |> put_status(:ok)
         |> json(result)
 
       {:error, message} ->
+        IO.inspect(message)
+
         conn
         |> put_status(:not_found)
         |> put_view(ApiWeb.ErrorView)
-        |> render("404.json", %{message: message}) 
+        |> render("404.json", %{message: message})
     end
   end
 end

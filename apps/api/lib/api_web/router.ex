@@ -10,6 +10,7 @@ defmodule ApiWeb.Router do
 
     get "/leagues", LeagueController, :index
     get "/leagues/:league/seasons/:season/scores", LeagueController, :scores
-    get "/proto/:league_id/:season_id", ProtobufsController, :index
+    get "/proto/leagues", ProtobufController, :index
+    get "/proto/:league/:season", ProtobufController, :scores
   end
 end

@@ -1,0 +1,28 @@
+message Leagues {
+  repeated League leagues = 1;
+}
+
+message League {
+  required string name = 1;
+  repeated Season seasons = 2;
+}
+
+message Season {
+  required string name = 1;
+}
+
+message Scores {
+  repeated Score scores = 1;
+}
+
+message Score {
+  required string home_team = 1;
+  required string away_team = 2;
+  required string date = 3;
+  required int32 ftag = 4;
+  required int32 fthg = 5;
+  required string  ftr = 6;
+  required int32 htag = 7;
+  required int32 hthg = 8;
+  required string  htr = 9;
+}

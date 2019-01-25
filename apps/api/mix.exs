@@ -23,7 +23,7 @@ defmodule Api.MixProject do
   def application do
     [
       mod: {Api.Application, []},
-      extra_applications: [:logger, :runtime_tools, :exprotobuf]
+      extra_applications: [:logger, :runtime_tools]
     ]
   end
 
@@ -41,7 +41,7 @@ defmodule Api.MixProject do
       {:gettext, "~> 0.11"},
       {:jason, "~> 1.0"},
       {:plug_cowboy, "~> 2.0"},
-      {:exprotobuf, "~> 1.2"}
+      {:proto_response, "~> 0.4.1"}
     ]
   end
 end

@@ -2,6 +2,19 @@ message ResultResponse {
   repeated Match result = 1 [packed=true];
 }
 
+message Leagues {
+  required string league = 1;
+}
+
+message Season {
+  required string season = 1;
+}
+
+message League {
+  required string league = 1;
+  repeated Seasons seasons = 1 [packed=true];
+}
+
 message Match {
   required string league = 1;
   required string season = 2;
