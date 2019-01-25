@@ -24,4 +24,5 @@
   * List available leagues and season pairs
   `/api/leagues`
   * List match statistic for specific leagues and season
+  `/api/leagues/SP1/seasons/201617/scores`
 
