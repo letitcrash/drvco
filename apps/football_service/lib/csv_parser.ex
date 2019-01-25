@@ -1,4 +1,4 @@
-defmodule FootballService.CSVParser do
+defmodule FootballService.CsvParser do
   @moduledoc """
   Documentation for FootballService.
   """

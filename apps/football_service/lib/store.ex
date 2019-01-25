@@ -1,6 +1,6 @@
 defmodule FootballService.Store do
   use GenServer
-  alias FootballService.CSVParser
+  alias FootballService.CsvParser
   alias FootballService.Proto
   require Logger
 
@@ -9,7 +9,7 @@ defmodule FootballService.Store do
   end
 
   def init(_) do
-    {:ok, CSVParser.init()}
+    {:ok, CsvParser.init()}
   end
 
   def list_leagues(opts \\ []) do

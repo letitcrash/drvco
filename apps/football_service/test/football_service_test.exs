@@ -1,7 +1,7 @@
 defmodule FootballServiceTest do
   use ExUnit.Case
   alias FootballService.Store
-  alias FootballService.CSVParser
+  alias FootballService.CsvParser
   doctest FootballService
 
   @league "SP1"
@@ -43,7 +43,7 @@ defmodule FootballServiceTest do
   ]
 
   test "validate data parsing" do
-    data = CSVParser.init()
+    data = CsvParser.init()
     [first_item | _rest] = data["SP1"]["201617"][:stats]
 
     assert first_item == @first_match
