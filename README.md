@@ -1,6 +1,6 @@
 # Drvc_0
 
-**Drvc_0 is a web application that serves football csv file data over HTTP API**
+**Drvc_0 is a web application that serves football match statistics over HTTP API**
 
   - Elixir Umbrella Application
   - JSON and Protocol Buffers
