@@ -24,7 +24,7 @@ defmodule FootballService.Store do
 
   def encode_in(list, _format) when is_nil(list), do: raise("League or Season is not available")
   def encode_in(list, format) when is_nil(format), do: list
-  def encode_in(list, :json) when is_list(list), do: list
+  def encode_in(list, :json) when is_list(list), do: Jason.encode!(list)
   def encode_in(list, :proto) when is_list(list), do: Proto.encode(list)
   def encode_in(_list, _format), do: raise("Unsupported format")
 

@@ -13,12 +13,9 @@ defmodule ApiWeb.LeagueControllerTest do
   describe "league api tests" do
     test "render leagues and seasons list when data valid", %{conn: conn} do
       conn = get(conn, Routes.league_path(conn, :index))
-      {:ok, leagues} = Store.list_leagues()
+      {:ok, leagues} = Store.list_leagues(format: :json)
 
-      expected =
-        leagues
-        |> Jason.encode!()
-        |> Jason.decode!()
+      expected = Jason.decode!(leagues)
 
       assert json_response(conn, 200) == expected
     end
@@ -27,10 +24,7 @@ defmodule ApiWeb.LeagueControllerTest do
       conn = get(conn, Routes.league_path(conn, :scores, @league, @season))
       {:ok, scores} = Store.get_scores(@league, @season, format: :json)
 
-      expected =
-        scores
-        |> Jason.encode!()
-        |> Jason.decode!()
+      expected = Jason.decode!(scores)
 
       assert json_response(conn, 200) == expected
     end
