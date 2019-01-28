@@ -55,5 +55,12 @@ defmodule ApiWeb.LeagueControllerTest do
 
       assert proto_response(conn, 200, Scores) == expected
     end
+    
+    test "ensure protobuf error message", %{conn: conn} do
+      conn = get(conn, Routes.protobuf_path(conn, :scores, @unavailable_league, @season))
+      {:error, message} = Store.get_scores(@unavailable_league, @season, format: :proto)
+
+      assert json_response(conn, 404) == %{"errors" => %{"detail" => message}}
+    end
   end
 end

@@ -26,10 +26,11 @@ defmodule ApiWeb.ProtobufController do
         |> send_resp(200, bin)
         |> halt()
 
-      {:error, _message} ->
+      {:error, message} ->
         conn
-        |> put_resp_header("content-type", "application/x-protobuf")
-        |> send_resp(200, [])
+        |> put_status(:not_found)
+        |> put_view(ApiWeb.ErrorView)
+        |> render("404.json", %{message: message})
     end
   end
 end

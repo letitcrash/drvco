@@ -4,21 +4,30 @@ defmodule FootballService.Proto do
   alias FootballService.Proto.Messages.Score
   alias FootballService.Proto.Messages.Scores
   alias FootballService.Proto.Messages.Season
+  require Logger
 
   def encode(list) do
-    list
-    |> Enum.map(&from_map(&1))
-    |> encode_for_type
+    try do
+      list
+      |> Enum.map(&from_map(&1))
+      |> encode_for_type
+    rescue 
+      _ ->
+        Logger.error("Protobuf encoding error in #{__MODULE__}")
+        {:error, "Error encoding to Protobuf struct"} 
+    end
   end
 
   def encode_for_type([%Score{} = _ | _] = list) do
-    Scores.new(scores: list)
+    s = Scores.new(scores: list)
     |> Scores.encode()
+    {:ok, s}
   end
 
   def encode_for_type([%League{} = _ | _] = list) do
-    Leagues.new(leagues: list)
+    l = Leagues.new(leagues: list)
     |> Leagues.encode()
+    {:ok, l}
   end
 
   def encode_for_type(list), do: list
