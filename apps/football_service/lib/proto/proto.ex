@@ -7,14 +7,14 @@ defmodule FootballService.Proto do
   require Logger
 
   @moduledoc """
-  Proto module recursively transforms given state list of maps 
-  to Protocol Buffers 
+  Recursively transforms given list of maps to Protocol Buffers 
   """
 
   @doc """
-  Entry point to module, accepts only list of leagues, seasons or scores maps
+  Entry point to module, accepts only list of leagues, seasons or scores maps.
+  Returns binary data encoded in by proto definitions declared in Messages module.
   """
-  @spec encode(list(map())) :: <<>>
+  @spec encode(list(map())) :: binary()
   def encode(list) do
     try do
       list
@@ -27,29 +27,29 @@ defmodule FootballService.Proto do
     end
   end
 
-  def encode_for_type([%Score{} = _ | _] = list) do
+  defp encode_for_type([%Score{} = _ | _] = list) do
     scores = Scores.new(scores: list)
     |> Scores.encode()
     {:ok, scores}
   end
 
-  def encode_for_type([%League{} = _ | _] = list) do
+  defp encode_for_type([%League{} = _ | _] = list) do
     leagues = Leagues.new(leagues: list)
     |> Leagues.encode()
     {:ok, leagues}
   end
 
-  def encode_for_type(list), do: list
+  defp encode_for_type(list), do: list
 
-  def from_map(%{league: league, seasons: seasons}) do
+  defp from_map(%{league: league, seasons: seasons}) do
     League.new(name: league, seasons: encode(seasons))
   end
 
-  def from_map(%{season: name}) do
+  defp from_map(%{season: name}) do
     Season.new(name: name)
   end
 
-  def from_map(map) do
+  defp from_map(map) do
     Score.new(
       home_team: map[:HomeTeam],
       away_team: map[:AwayTeam],

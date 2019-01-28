@@ -1,12 +1,14 @@
 defmodule FootballService.CsvParser do
   @moduledoc """
-  Documentation for FootballService.
+  Parses CSV files at hardcoded path and reduces csv file structure
+  to structured maps 
   """
 
   @football_stats_file_path "Data.csv"
 
   @doc """
-  Initialization of a storage.
+  Entry point to start transforming process at hardcoded file path.
+  Reads file and returns structured map of leagues parsed from CSV file.
 
   ## Examples
 
@@ -14,16 +16,16 @@ defmodule FootballService.CsvParser do
   %{
     "SP1" => %{
       "201617" => %{
-        data: [                                                                                                                                             
-          Date: "04/06/2017",                                                                                                                         
-          HomeTeam: "Girona",                                                                                                                         
-          AwayTeam: "Zaragoza",                                                                                                                       
-          FTHG: "0",                                                                                                                                  
-          FTAG: "0",                                                                                                                                  
-          FTR: "D",                                                                                                                                   
-          HTHG: "0",                                                                                                                                  
-          HTAG: "0",                                                                                                                                  
-          HTR: "D"                                                                                                                                    
+        data: [
+          Date: "04/06/2017", 
+          HomeTeam: "Girona", 
+          AwayTeam: "Zaragoza", 
+          FTHG: "0", 
+          FTAG: "0", 
+          FTR: "D", 
+          HTHG: "0", 
+          HTAG: "0", 
+          HTR: "D" 
         ]
       },
       ...
@@ -32,15 +34,17 @@ defmodule FootballService.CsvParser do
   }
 
   """
+
   def init do
     @football_stats_file_path
     |> read_file!
     |> parse_csv
   end
 
-  def read_file!(path), do: File.read!(path) |> String.split(~r/\R/)
+  defp read_file!(path), do: File.read!(path) |> String.split(~r/\R/)
 
-  def parse_csv([header | data]) do
+  @spec parse_csv(list()) :: list(map())
+  defp parse_csv([header | data]) do
     data
     |> Stream.map(&String.split(&1, ","))
     |> Stream.filter(&valid_row?(&1))
@@ -50,7 +54,7 @@ defmodule FootballService.CsvParser do
     end)
   end
 
-  def merge(acc, record) do
+  defp merge(acc, record) do
     case record do
       [{:Div, league} | tail] ->
         inner_map = merge(Map.get(acc, league, %{}), tail)
@@ -69,7 +73,7 @@ defmodule FootballService.CsvParser do
     end
   end
 
-  def zip(record, with_header: header) do
+  defp zip(record, with_header: header) do
     header
     |> String.split(",")
     |> Enum.map(fn el -> String.to_atom(el) end)
