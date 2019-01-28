@@ -36,21 +36,21 @@ defmodule FootballService.Store do
     GenServer.call(:store, {:get_scores, league, season, format})
   end
 
-  def encode_in(list, _format) when is_nil(list),
+  defp encode_in(list, _format) when is_nil(list),
     do: {:error, "League or Season is not available"}
 
-  def encode_in(list, format) when is_nil(format), do: {:ok, list}
-  def encode_in(list, :json) when is_list(list), do: Jason.encode(list)
-  def encode_in(list, :proto) when is_list(list), do: Proto.encode(list)
-  def encode_in(_list, _format), do: {:error, "Unsupported format"}
+  defp encode_in(list, format) when is_nil(format), do: {:ok, list}
+  defp encode_in(list, :json) when is_list(list), do: Jason.encode(list)
+  defp encode_in(list, :proto) when is_list(list), do: Proto.encode(list)
+  defp encode_in(_list, _format), do: {:error, "Unsupported format"}
 
-  def get_leagues(state) do
+  defp get_leagues(state) do
     state
     |> Map.keys()
     |> Enum.map(&%{league: &1, seasons: get_seasons(state[&1])})
   end
 
-  def get_seasons(state) do
+  defp get_seasons(state) do
     state
     |> Map.keys()
     |> Enum.map(&%{season: &1})
