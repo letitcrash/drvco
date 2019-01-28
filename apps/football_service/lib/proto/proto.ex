@@ -6,6 +6,15 @@ defmodule FootballService.Proto do
   alias FootballService.Proto.Messages.Season
   require Logger
 
+  @moduledoc """
+  Proto module recursively transforms given state list of maps 
+  to Protocol Buffers 
+  """
+
+  @doc """
+  Entry point to module, accepts only list of leagues, seasons or scores maps
+  """
+  @spec encode(list(map())) :: <<>>
   def encode(list) do
     try do
       list
