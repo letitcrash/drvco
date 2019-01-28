@@ -19,15 +19,15 @@ defmodule FootballService.Proto do
   end
 
   def encode_for_type([%Score{} = _ | _] = list) do
-    s = Scores.new(scores: list)
+    scores = Scores.new(scores: list)
     |> Scores.encode()
-    {:ok, s}
+    {:ok, scores}
   end
 
   def encode_for_type([%League{} = _ | _] = list) do
-    l = Leagues.new(leagues: list)
+    leagues = Leagues.new(leagues: list)
     |> Leagues.encode()
-    {:ok, l}
+    {:ok, leagues}
   end
 
   def encode_for_type(list), do: list
