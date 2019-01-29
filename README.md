@@ -11,11 +11,11 @@
 
 # Running application
 
-### In docker container
+### In Docker container
   * Build `docker build . -t drvco`
   * Run `docker run -p4000:4000 drvco`
 
-### With HAProxy in docker cluster 
+### With HAProxy in Docker Compose 
   * Build and run `docker-compose up -d`
   * Scale api to N instances `docker-compose scale api=N`
   * Check running containers `docker ps`
