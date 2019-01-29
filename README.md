@@ -1,4 +1,4 @@
-# Drvc_0
+# Drvc0
 
 **Drvc_0 is a web application that serves football match statistics over HTTP API**
 
