@@ -38,9 +38,8 @@
 # Application structure
 
 ### API
-Minimal Phoenix 1.4 application with no ecto, no HTML, no Webpack. 
+Minimal Phoenix 1.4 application with no ecto, no HTML, no Webpack. Requests data from *Footaball.Service.Store* module to serve over HTTP in JSON and Protobuff formats. 
 
 ### FootballService
-Supervised GenServer (Store module) starts with application and loading initial state from csv file parser (CsvParser module). Protocol Buffers transfomation is handled in Proto module
-
+GenServer *Store module* provides client API to access football statistics data. Starts supervised with application and loads initial state from *CsvParser* module. Protocol Buffers transfomations and encoding are handled in *Proto* module with *Proto.Messages* declaing definitions. *Jason* external libary provides API to encode data in JSON fromat.
 
