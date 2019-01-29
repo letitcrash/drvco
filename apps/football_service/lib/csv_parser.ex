@@ -4,7 +4,7 @@ defmodule FootballService.CsvParser do
   to structured maps 
   """
 
-  @football_stats_file_path "Data.csv"
+  @data_file_name "Data.csv"
 
   @doc """
   Entry point to start transforming process at hardcoded file path.
@@ -36,12 +36,16 @@ defmodule FootballService.CsvParser do
   """
 
   def init do
-    @football_stats_file_path
+    Application.app_dir(:football_service, "priv/" <> @data_file_name)
     |> read_file!
     |> parse_csv
   end
 
-  defp read_file!(path), do: File.read!(path) |> String.split(~r/\R/)
+  defp read_file!(data_file_path) do 
+    data_file_path
+    |> File.read!() 
+    |> String.split(~r/\R/)
+  end
 
   @spec parse_csv(list()) :: list(map())
   defp parse_csv([header | data]) do
