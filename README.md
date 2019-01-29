@@ -7,7 +7,7 @@
   - JSON and Protocol Buffers
   - Dockerized
   - HAProxy instance load balancing
-  - No database, since no state altering required 
+  - No database, no state altering required 
 
 # Running application
 
