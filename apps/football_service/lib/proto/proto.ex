@@ -14,7 +14,7 @@ defmodule FootballService.Proto do
   Entry point to module, accepts only list of leagues, seasons or scores maps.
   Returns binary data encoded in by proto definitions declared in Messages module.
   """
-  @spec encode(list(map())) :: binary()
+  @spec encode(list(map())) :: {:ok, binary() } | {:error, String.t}
   def encode(list) do
     try do
       list
