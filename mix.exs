@@ -15,6 +15,9 @@ defmodule Drvco.MixProject do
   #
   # Run "mix help deps" for examples and options.
   defp deps do
-    [{:dialyxir, "~> 0.5", only: [:dev]}]
+    [
+      {:dialyxir, "~> 0.5", only: [:dev]},
+      {:distillery, "~> 2.0"}
+    ]
   end
 end
